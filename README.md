@@ -3,5 +3,4 @@
 
 A simple steam engine animation from the steam logo.
 
-> [DOWNLOAD (old version)](https://secretroomdev.itch.io/steam-interactive-anim "Steam Interactive Animation by SecretRoomDev")
-![Preview](/preview.png)
+[DOWNLOAD (old version)](https://secretroomdev.itch.io/steam-interactive-anim "Steam Interactive Animation by SecretRoomDev")
