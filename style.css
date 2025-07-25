@@ -1,0 +1,19 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	height: 512px;
+	overflow: hidden;
+}
+
+canvas {
+	position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+}
+
+.bg {
+	background: linear-gradient(to bottom, black, rgb(0, 122, 173));
+	width: 512px;
+	height: 512px;
+}

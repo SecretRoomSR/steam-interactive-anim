@@ -1,0 +1,8 @@
+{
+	"exclude": [
+		"**/*.js"
+	],
+	"compilerOptions": {
+		"outDir": "dist"
+	},
+}

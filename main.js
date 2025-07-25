@@ -5,6 +5,7 @@ const createWindow = () => {
 		width: 512,
 		height: 512,
 		autoHideMenuBar: true,
+		resizable: false
 	})
 
 	win.loadFile("index.html")
