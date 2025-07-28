@@ -1,5 +1,8 @@
 const canvas = document.getElementById("canvas") as HTMLCanvasElement
 const ctx = canvas.getContext("2d")!
+const fpsT = document.querySelector(".fps") as HTMLHeadingElement
+const speedT = document.querySelector(".speed") as HTMLHeadingElement
+const angleT = document.querySelector(".angle") as HTMLHeadingElement
 
 class Vector2 {
 	x: number
@@ -9,11 +12,25 @@ class Vector2 {
 		this.x = x
 		this.y = y
 	}
+
+	static lerp(a: Vector2, b: Vector2, t: number): Vector2 {
+		return new Vector2(
+			lerp(a.x, b.x, t),
+			lerp(a.y, b.y, t)
+		)
+	}
 }
 
 let camPos = new Vector2(0, 0)
-let angle = -Math.PI / 4
-setInterval(() => {
+let angle = 2 * Math.PI - Math.PI / 4
+let vel = 0
+function update() {
+	let r = "Counter Clockwise"
+	if (vel < 0) r = "Clockwise"
+	if (vel == 0) r = "Stopped"
+	speedT.innerText = "Speed: " + Math.abs(Math.round(vel / Math.PI * 180 * 100) / 100) + "°/frame " + r
+	angleT.innerText = "Angle: " + Math.round((angle - Math.PI / 2 + 2 * Math.PI) / Math.PI * 180) % 360 + "°"
+
 	// Points
 	let pivot = new Vector2(camPos.x + 384, camPos.y + 256)
 	let target = new Vector2(pivot.x + Math.sin(angle) * 160, pivot.y + Math.cos(angle) * 160)
@@ -114,5 +131,41 @@ setInterval(() => {
 	}
 	ctx.putImageData(frame, 0, 0)
 
-	angle += Math.PI / 180
-}, 1 / 60)
+	angle += vel
+	angle %= Math.PI * 2
+	if (angle < 0) angle += Math.PI * 2
+	handleKey()
+	requestAnimationFrame(update)
+}
+requestAnimationFrame(update)
+
+function lerp(a: number, b: number, t: number): number {
+	return a + (b - a) * t
+}
+
+let keys: Set<string> = new Set()
+
+function handleKey() {
+	if (keys.has("a")) vel += 0.0002
+	if (keys.has("d")) vel -= 0.0002
+	if (keys.has("q")) vel += 0.001
+	if (keys.has("e")) vel -= 0.001
+	if (keys.has("s")) vel = lerp(vel, 0, 0.006)
+	if (keys.has("w")) vel = lerp(vel, 0, 0.1)
+	if (keys.has("r")) vel += 0.5
+	if (keys.has("t")) vel -= 0.5
+	if (keys.has("f")) camPos = Vector2.lerp(camPos, new Vector2(0, 0), 0.1)
+	if (keys.has(".")) {
+		vel = lerp(vel, 0, 0.1)
+		angle = lerp(angle, (Math.PI * 7) / 4, 0.03)
+	}
+}
+
+window.addEventListener("keydown", (e) => {
+    keys.add(e.key.toLowerCase())
+	console.log("added key: ", e.key.toLowerCase())
+})
+window.addEventListener("keyup", (e) => {
+    keys.delete(e.key.toLowerCase())
+	console.log("removed key: ", e.key.toLowerCase())
+})

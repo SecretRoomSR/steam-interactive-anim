@@ -1,6 +1,12 @@
+@font-face {
+	font-family: "Nunito";
+	src: url(Nunito-VariableFont_wght.ttf);
+}
+
 * {
 	margin: 0;
 	padding: 0;
+	font-family: "Nunito";
 }
 
 body {
@@ -9,11 +15,38 @@ body {
 }
 
 canvas {
-	position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 .bg {
 	background: linear-gradient(to bottom, black, rgb(0, 122, 173));
 	width: 512px;
 	height: 512px;
+}
+
+h1 {
+	font-size: 12px;
+	font-weight: 100;
+}
+
+.text {
+	position: fixed;
+	z-index: 999;
+	top: 6px;
+	left: 6px;
+	color: white;
+	width: 500px;
+}
+
+.info {
+	position: fixed;
+	z-index: 999;
+	top: 6px;
+	color: white;
+	width: 500px;
+	text-align: right;
+	right: 6px;
 }

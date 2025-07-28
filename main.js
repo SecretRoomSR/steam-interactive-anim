@@ -1,12 +1,14 @@
 const { app, BrowserWindow } = require("electron/main")
+const path = require("path")
 
 const createWindow = () => {
 	const win = new BrowserWindow({
 		width: 512,
 		height: 512,
 		autoHideMenuBar: true,
-		resizable: false
+		resizable: false,
 	})
+	win.setIcon(path.join(__dirname, "icon.png"))
 
 	win.loadFile("index.html")
 }
