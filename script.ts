@@ -71,6 +71,14 @@ function update() {
 	// Hinge to piston
 	let pistonAngle = Math.atan2(piston.y - target.y, piston.x - target.x)
 	left = new Vector2(Math.cos(pistonAngle - Math.PI / 2), Math.sin(pistonAngle - Math.PI / 2))
+	// ctx.fillStyle = "black"
+	// ctx.beginPath()
+	// ctx.moveTo(piston.x + left.x * 30, piston.y + left.y * 30)
+	// ctx.lineTo(piston.x - left.x * 30, piston.y - left.y * 30)
+	// ctx.lineTo(target.x - left.x * 38, target.y - left.y * 38)
+	// ctx.lineTo(target.x + left.x * 38, target.y + left.y * 38)
+	// ctx.lineTo(piston.x + left.x * 30, piston.y + left.y * 30)
+	// ctx.fill()
 	ctx.fillStyle = "white"
 	ctx.beginPath()
 	ctx.moveTo(piston.x + left.x * 24, piston.y + left.y * 24)
@@ -162,10 +170,52 @@ function handleKey() {
 }
 
 window.addEventListener("keydown", (e) => {
-    keys.add(e.key.toLowerCase())
+	keys.add(e.key.toLowerCase())
 	console.log("added key: ", e.key.toLowerCase())
 })
 window.addEventListener("keyup", (e) => {
-    keys.delete(e.key.toLowerCase())
+	keys.delete(e.key.toLowerCase())
 	console.log("removed key: ", e.key.toLowerCase())
 })
+
+dragElement(document.querySelector("canvas"));
+
+function dragElement(elmnt) {
+	var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+	if (document.getElementById(elmnt.id + "header")) {
+		// if present, the header is where you move the DIV from:
+		document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+	} else {
+		// otherwise, move the DIV from anywhere inside the DIV:
+		elmnt.onmousedown = dragMouseDown;
+	}
+
+	function dragMouseDown(e) {
+		e = e || window.event;
+		e.preventDefault();
+		// get the mouse cursor position at startup:
+		pos3 = e.clientX;
+		pos4 = e.clientY;
+		document.onmouseup = closeDragElement;
+		// call a function whenever the cursor moves:
+		document.onmousemove = elementDrag;
+	}
+
+	function elementDrag(e) {
+		e = e || window.event;
+		e.preventDefault();
+		// calculate the new cursor position:
+		pos1 = pos3 - e.clientX;
+		pos2 = pos4 - e.clientY;
+		pos3 = e.clientX;
+		pos4 = e.clientY;
+		// set the element's new position:
+		camPos = new Vector2(camPos.x - pos1, camPos.y - pos2)
+	}
+
+	function closeDragElement() {
+		// stop moving when mouse button is released:
+		document.onmouseup = null;
+		document.onmousemove = null;
+	}
+}
